@@ -1,92 +1,83 @@
-#Dataframe trong R
-# là cấu trúc dữ liệu dùng để lưu trữ dữ liệu dạng bảng
-#trong R  (cho phân tích thống kê và ML) 
-# là môt danh sách các vector có cùng độ dài 
-#1và thường có tên duy nhất
+# DATAFRAME TRONG R
+# Dataframe là cấu trúc dữ liệu dùng để lưu trữ dữ liệu 
+# dạng bảng trong R (phổ biến nhất cho phân tích thống kê 
+# và machine learning). Dataframe có thể được xem 
+# là một danh sách  các vector có cùng độ dài và thường 
+# có tên duy nhất.
 
 
-# 1. Tạo dataframe 
-# được tạo từ các vector có chung độ dài
-
-
+# 1. Tạo dataframe
+# Dataframe được tạo ra từ các vector có chung độ dài
 
 column1 <- c(1:3)
 column2 <- c("Tung", "Tom", "Anna")
-column3 <- c(T,T,F)
+column3 <- c(T, T, F)
 
-dataset1 <- data.frame(column1,column2,column3)
-
-# Hiển thị ra console 
-
+dataset1 <- data.frame(column1, column2, column3)
+# Hiển thị ra console
 dataset1 
 print(dataset1)
-View(dataset1) # hiện một của sổ khác, nhìn tổng quan về table
+# View dữ liệu
+View(dataset1)
 
-# Xem tên của các cột
+# Tên của các cột
 colnames(dataset1)
+# Đổi tên cột 2
+colnames(dataset1)[2]<-"Name"
+dataset1
+# Đổi tên cột hàng loạt
+colnames(dataset1)<-c("#", "Name", "Check")
+dataset1
 
-#Đổi tên cột
+#2. Thêm dòng mới cho dataframe
+newRow <- c(4, "Nhat Tung", T)
+dataset2 <- rbind(dataset1, newRow)
+dataset2
 
-colnames(dataset1 ) [2] <- "Name"
-colnames(dataset1[2])
-    # Đổi hàng loạt 
-colnames(dataset1) <- c("#","Name", "Check")
+newRowDF <- data.frame(5, "Lisa", F)
+names(newRowDF) <- c("#", "Name", "Check")
+dataset3<-rbind(dataset2,newRowDF)
+dataset3
 
-dataset1 
-
-# Thêm dòng mới cho DATAFRAME
-
-newRow <- c(4,"NTung", T) # Ghép df với vector
-
-dataset2 <- rbind(dataset1 ,newRow)
-dataset2 
-
-newRowDF <- data.frame(5,"Lisa", F) # Ghép với DF thì 2 DF cần giống tên cột
-names(newRowDF) <- c("#","Name", "Check")
-dataset3 <- rbind (dataset2, newRowDF) # 
-dataset3 
-
-
-# Thêm một cột mới (tên của vector sẽ là tên cột) 
-
-newColumn <- c(2,4,6,8,10)
-dataset4 <- cbind(dataset3, newColumn)
+#3. Thêm cột mới
+newColumn <- c("a", "b", "c", "d", "f")
+dataset4<-cbind(dataset3, newColumn)
 dataset4
 
-dataset4 $ newColumn2 <- c(2,4,6,8,10)
+dataset4$newColumn2<-c(1,2,3,4,5)
 
+#4. Truy xuất dữ liệu
+# Truy xuất bằng chỉ sổ
+dataset4[3,2] # dòng 3, cột 2
 
+# Truy xuất dữ liệu bằng chỉ số và tên cột
+dataset4[3, "Check"]
 
-# Truy xuất dữ liệu 
-    # Truy xuất bằng chỉ số
-dataset4[3,2] # dòng 3 cột 2 
-
-    # bằng chỉ số và tên cột 
-dataset4[3,"Name"]
-    
-    #bằng tên cột
+# Truy suất bằng tên cột
 dataset4["Name"]
 dataset4[,"Name"]
-dataset4$
+dataset4$Name
 
-  
-# Các hàm thường dùng 
-  #Hiển thị 5 dòng đầu 
-head(dataset4)
-  #Hiển thị 5 dòng cuối 
-tail(dataset4)
-  #Hiển thi cấu trúc dữ liệu
-str(dataset4)
+#5. Các hàm thường dùng
+head(dataset4) # hiển thị vài dòng đầu
+tail(dataset4) # hiển thị vài dòng cuối
+str(dataset4)  # hiển thị cấu trúc của dữ liệu
+summary(dataset4)
 
+#6. Thay đổi kiểu dữ liệu cột
+dataset4$Check<-as.logical(dataset4$Check)
 summary(dataset4)
 
 
-dataset4$Check <- as.logical(dataset4$Check)
-summary(dataset4)
-
-
-data()
+######## Bài tập:
+######## Bộ dữ liệu iris
+data() # Lấy ra toàn bộ dataset được build trong R
 iris
 View(iris)
+str(iris)
+summary(iris)
+head(iris)
+tail(iris)
 
-
+CO2
+View(CO2)

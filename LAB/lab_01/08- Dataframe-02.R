@@ -1,100 +1,91 @@
-# 1 . Các thao tác nâng cao (Data wrangling )
-set1 <- data.frame(IdClient = c(1:6 , 8 ) , Product = c(rep("Thit kho",4), rep("Ca kho", 3 )))
-set2 <- data.frame(IdClient = c(1,2,5,9) , Region = c(rep("TP. HCM ",3), "Dong Nai"))
-                                      
+# 1. Các thao tác nâng cao (Data Wrangling)
+# Tạo dataframe
+set1 <- data.frame(IdClient = c(1:6, 8), Product = c(rep("Thit Kho", 4), rep("Ca Kho", 3)))
+set2 <- data.frame(IdClient = c(1,2,5,9), Region = c(rep("TP. HCM", 3), "Dong Nai"))
+
 set1
 set2
 
-
-# Gộp bảng dữ liệu 
-# a. Inner join (lấy phần tử có cả ở 2 set)
-
-set3 <- merge (set1, set2, by= "IdClient")
+# Gộp bảng dữ liệu (merging/ joins)
+#a. Inner Join (chỉ lấy phần chung có cả ở 2 set)
+set3 <- merge(set1, set2, by="IdClient")
 set3
 
-
-#b . outer join (lấy tất cả, cái nào thiếu thì điền NA)
-set3 <- merge (set1, set2, by= "IdClient", all = TRUE)
-set3 
-
-
-#c. left join (lấy tất cả set1 ( bên trái) những phần tử
-#không có ở set2 sẽ được điền NA)
-set4 <- merge (set1, set2, by= "IdClient", all.x = TRUE)
+#b. Outer join (lấy tất cả, cái nào bị thiếu thì điền là NA)
+set4<-merge(set1,set2, by="IdClient", all = TRUE)
 set4
 
-#d. right join (lấy tất cả set2 ( bên phải) những phần tử
-#không có ở set1 sẽ được điền NA)
-set3 <- merge (set1, set2, by= "IdClient", all.y = TRUE)
-set3
+#c. Left join (giữ nguyên bảng bên trái set1, tìm bảng phải ghép vào)
+set5<-merge(set1,set2, by="IdClient", all.x = TRUE)
+set5
+
+#c. Right join (giữ nguyên bảng bên phải set2, tìm bảng trái ghép vào)
+set6<-merge(set1,set2, by="IdClient", all.y = TRUE)
+set6
+
+# Sắp xếp dữ liệu (sort/order)
+sort(set1$IdClient)
+sort(set1$IdClient, decreasing = TRUE)
+order(set1$IdClient, decreasing = TRUE)
+
+# Sử dụng hàm order để lấy chỉ số index đã sắp xếp sau đó áp dụng cho dataframe
+set1[order(set1$IdClient, decreasing = TRUE),]
+
+iris[order(iris$Sepal.Length), ]
+
+# Lọc dữ liệu (filtering)
+set4[set4$Region=="TP. HCM" & !is.na(set4$Region), ]
+set4[set4$Product=="Ca Kho" & !is.na(set4$Product), ]
+set4[(set4$Product=="Ca Kho" & !is.na(set4$Product)) & set4$IdClient>=6, ]
+
+iris[iris$Species=="setosa",]
+
+iris[iris$Species=="setosa" & iris$Petal.Length >= 1.5,]
 
 
-
-# sắp xếp dữ liệu 
-
-sort(set1$IdClient) # mặc định tăng dần theo giá tri 
-order(set1$IdClient) # mặc định tăng dần theo index
-
-sort(set1$IdClient, decreasing =  TRUE) # giảm dần 
-order(set1$IdClient, decreasing =  TRUE) # giảm dần 
-#sắp xếp bảng theo chiều của một cột bằng index 
-
-set1[order(set1$IdClient),]
-
-View(iris[order(iris$Sepal.Width),] )
-
-
-# LỌc dữ liệu DF 
-set4[set4$Region,]
-
-set4[set4$Region=="TP. HCM " & !is.na(set4$Region),]
-
-set4[set4$Region=="TP. HCM " & !is.na(set4$Region)  & set4$Product=="Ca kho",]
-
-set4[set4$Region=="TP. HCM " & !is.na(set4$Region) & set4$IdClient < 5, ]
-
-
-set4$Product <- as.factor(set4$Product)
-set4$Region <- as.factor(set4$Region)
-
-summary(set4)
+# Làm việc với factor
 str(set4)
+set4$Product<- as.factor(set4$Product)
+set4$Region<- as.factor(set4$Region)
+summary(set4)
 
-
-# Data Cleaning
-
-  # Phát hiện missing value 
+#2. Làm sạch dữ liệu (Data Cleaning)
+set4
+# Phát hiện được dữ liệu có bị thiếu (missing value)
 is.na(set4)
 sum(is.na(set4))
-  
-  #Phát hiện dòng chứa NA
-    #complete.case : kiểm tra dòng đã có đầy đủ 
-set4[is.na(set4$Region),]
-set4[complete.cases(set4),] # lọc ra dòng đã đầy đủ
-set4[!complete.cases(set4),] # lọc ra dòng có ít nhất 1 phần tử NA 
 
+# complete.cases => dòng đã có đầy đủ dữ liệu
+# Lọc ra các dòng không có NA
+set4[complete.cases(set4),]
 
-  # Xóa đi các NA
-set4_clean <- na.omit(set4) 
+# Lọc ra các dòng có ít nhất một cột bị NA
+set4[!complete.cases(set4),]
+
+# Xóa đi các dòng bị NA
+set4_clean <- na.omit(set4)
 set4_clean
 
-  # Điền missing value 
+# Điền thiếu
 set4$Region <- as.character(set4$Region)
-set4[is.na(set4$Region), "Region"] <- "Viet Nam" 
-set4
+set4[is.na(set4$Region),"Region"]<-"Vietnam"
 
 
 
+# Sử dụng complete.cases
+setMissing = data.frame(
+  IdClient = c(1:10), 
+  Region = c(rep("western", 2), rep(NA, 2), rep("eastern", 1), rep(NA, 5)),
+  Wages = c(seq(2000, 3500, 500), NA, seq(4000, 5000, 500), rep(NA, 2))
+)
+setMissing
+
+# Lấy các dòng đầy đủ (không có NA)
+setMissing[complete.cases(setMissing),]
 
 
 
+# Lấy các dòng có ít nhất 1 NA
+setMissing[!complete.cases(setMissing),]
 
-
-
-
-
-
-
-
-
-
+setMissing[is.na(setMissing$Region) | is.na(setMissing$Wages),] 
