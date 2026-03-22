@@ -16,6 +16,7 @@ student <- list(
 student[1]
 class(student[1])
 
+
 # Cách 2 : Dung [[]] => trả về giá trị
 student[[1]]
 class(student[[1]])

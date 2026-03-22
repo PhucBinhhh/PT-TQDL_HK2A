@@ -89,3 +89,4 @@ setMissing[complete.cases(setMissing),]
 setMissing[!complete.cases(setMissing),]
 
 setMissing[is.na(setMissing$Region) | is.na(setMissing$Wages),] 
+

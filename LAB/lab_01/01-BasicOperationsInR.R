@@ -1,56 +1,58 @@
-# Khai báo thông số
-chieudai <- 20
-chieurong <-7
+# Bước 1: Khai báo các thông số
+chieu_dai <- 20
+chieu_rong <- 10
+don_vi <- "met"
 
-# Tính toán chu vi và diện tích
-chuvi <- (chieudai + chieurong) *2 
-dientich <- chieudai * chieurong 
+# Bước 2: Tính toán chu vi và diện tích
+chu_vi <- (chieu_dai+chieu_rong)*2
+dien_tich <- chieu_dai*chieu_rong
 
-# So sánh 
-check_dk <- (dientich > 150) & (chieudai > chieurong)
+# Bước 3: Sử dụng toán so sánh + logic
+# Kiểm tra nếu diện tích > 150 và chiều dài có lớn hơn chiều rộng hay không
+check_dk <- (dien_tich>150) & (chieu_dai>chieu_rong)
 
-# In kết quả
-print(paste("chu vi bằng :", chuvu ,don_vi))
-kq <- paste ("diện tích là :", dientich, don_vi)
+# Bước 4: In kết quả
+print(paste("Chu vi la: ", chu_vi, don_vi))
+ketQua <- paste("Diện tích là: ", dien_tich, don_vi)
+ketQua
 
-#Kiểm tra
+# Bước 5: Kiểm tra kiểu dữ liệu
+class(don_vi)
+class(check_dk)
+
+# class() : kiểm tra kiểu dữ liệu
+
+# is.numeric() : kiểm tra dữ liệu có phải là numeric hay không
+# is.integer() : kiểm tra dữ liệu có phải là integer hay không
+# is.logical() : kiểm tra dữ liệu có phải là logical hay không
+# is.character(): kiểm tra dữ liệu có phải là character hay không
+
+# Chuyển đổi kiểu
+# as.numeric()
+# as.integer()
+# as.logical()
+# as.character()
+# as.Date()
+
+a<-1.5
+class(a)
+
+b<-10
+class(b)
+
+is.integer(a)
+is.integer(b)
+is.numeric(b)
+
+b<-6.89
+class(b)
+b<-as.integer(b)
+class(b)
+print(b)
+
+# Bổ sung
+help(print)
 help(class)
 
-# 
-check_dk<- as.character()
-
-
-############## VECTOR
-v <- c(1,2,3,4,5,6) # vector cơ bản 
-
-# hàm seq()
-v0 <- seq (1,5)
-v1 <- seq(2,10 , by = 2 )
-today <- as.Date(Sys.Date())
-v5 <- seq (today, as.Date("2026-7-1"))
-len <- length(v5)
-len
-
-# hàm rep()
-v2 <- rep(1, times = 10 )
-v3 <- rep(c(2,3) , times = 3 )
-v4 <- rep(c(1,2), times =3 , each = 2)
- 
-
-v1+ v0
-
-v[-3]
-v[2]
-
-
-
-
-
-
-
-
-
-
-
-
-
+class(check_dk) <- "character"
+check_dk

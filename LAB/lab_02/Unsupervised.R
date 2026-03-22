@@ -739,71 +739,6 @@ text(small_data$x, small_data$y + 0.5, small_data$label, font = 2)
 
 
 
-set.seed(42)
-
-# Dữ liệu nhỏ (6 điểm)
-small_data <- data.frame(
-  x = c(1, 2, 2, 8, 9, 9),
-  y = c(1, 1, 2, 8, 8, 9),
-  label = paste("P", 1:6, sep="")
-)
-
-par(mfrow = c(2, 3))
-
-# Bước 0: Mỗi điểm là 1 cụm
-plot(small_data$x, small_data$y, pch = 19, cex = 2,
-     col = rainbow(6), xlim = c(0, 10), ylim = c(0, 10),
-     xlab = "X", ylab = "Y",
-     main = "Bước 0: 6 cụm\nMỗi điểm 1 cụm")
-text(small_data$x, small_data$y + 0.5, small_data$label, font = 2)
-
-# Bước 1: Gộp P1 và P2 (gần nhất)
-colors1 <- c(1, 1, 2, 3, 4, 5)
-plot(small_data$x, small_data$y, pch = 19, cex = 2,
-     col = rainbow(5)[colors1], xlim = c(0, 10), ylim = c(0, 10),
-     xlab = "X", ylab = "Y",
-     main = "Bước 1: 5 cụm\nGộp P1, P2")
-text(small_data$x, small_data$y + 0.5, small_data$label, font = 2)
-lines(small_data$x[1:2], small_data$y[1:2], lwd = 2, col = rainbow(5)[1])
-
-# Bước 2: Gộp {P1,P2} và P3
-colors2 <- c(1, 1, 1, 2, 3, 4)
-plot(small_data$x, small_data$y, pch = 19, cex = 2,
-     col = rainbow(4)[colors2], xlim = c(0, 10), ylim = c(0, 10),
-     xlab = "X", ylab = "Y",
-     main = "Bước 2: 4 cụm\nGộp {P1,P2}, P3")
-text(small_data$x, small_data$y + 0.5, small_data$label, font = 2)
-lines(small_data$x[1:3], small_data$y[1:3], lwd = 2, col = rainbow(4)[1])
-
-# Bước 3: Gộp P4 và P5
-colors3 <- c(1, 1, 1, 2, 2, 3)
-plot(small_data$x, small_data$y, pch = 19, cex = 2,
-     col = rainbow(3)[colors3], xlim = c(0, 10), ylim = c(0, 10),
-     xlab = "X", ylab = "Y",
-     main = "Bước 3: 3 cụm\nGộp P4, P5")
-text(small_data$x, small_data$y + 0.5, small_data$label, font = 2)
-lines(small_data$x[1:3], small_data$y[1:3], lwd = 2, col = rainbow(3)[1])
-lines(small_data$x[4:5], small_data$y[4:5], lwd = 2, col = rainbow(3)[2])
-
-# Bước 4: Gộp {P4,P5} và P6
-colors4 <- c(1, 1, 1, 2, 2, 2)
-plot(small_data$x, small_data$y, pch = 19, cex = 2,
-     col = rainbow(2)[colors4], xlim = c(0, 10), ylim = c(0, 10),
-     xlab = "X", ylab = "Y",
-     main = "Bước 4: 2 cụm\nGộp {P4,P5}, P6")
-text(small_data$x, small_data$y + 0.5, small_data$label, font = 2)
-lines(small_data$x[1:3], small_data$y[1:3], lwd = 2, col = rainbow(2)[1])
-lines(small_data$x[4:6], small_data$y[4:6], lwd = 2, col = rainbow(2)[2])
-
-# Bước 5: Gộp 2 cụm lớn
-colors5 <- rep(1, 6)
-plot(small_data$x, small_data$y, pch = 19, cex = 2,
-     col = "purple", xlim = c(0, 10), ylim = c(0, 10),
-     xlab = "X", ylab = "Y",
-     main = "Bước 5: 1 cụm\nGộp hết")
-text(small_data$x, small_data$y + 0.5, small_data$label, font = 2)
-
-
 par(mfrow = c(1, 1))
 
 par(mfrow = c(2, 2))
@@ -961,6 +896,10 @@ data.frame(
 )
 
 
+
+#DBSCAN (Density-Based Spatial Clustering)
+
+
 set.seed(42)
 
 # Tạo dữ liệu mẫu
@@ -1006,7 +945,13 @@ legend("topright",
        col = c("red", "lightblue", "black"),
        pch = c(19, 19, 4), cex = 1)
 
+setwd("C:/Users/Admin/Desktop/TANPHAT/hocotruong/Năm ba 2025-2026/HK2_A/Phantichvatrucquandulieu/LAB/lab_02")
 
+#install.packages("dbscan")
+
+#install.packages("dbscan",
+                 #repos = c("https://mhahsler.r-universe.dev",
+                           #"https://cloud.r-project.org/"))
 
 
 library(dbscan)
@@ -1017,7 +962,9 @@ data_dbscan <- data.frame(
   y = c(rnorm(50, 2, 0.5), rnorm(50, 3, 0.6), rnorm(50, 7, 0.5))
 )
 
+
 par(mfrow = c(2, 3))
+
 
 # Thử nghiệm eps
 db1 <- dbscan(data_dbscan, eps = 0.3, minPts = 5)
@@ -1052,17 +999,123 @@ plot(data_dbscan, col = db6$cluster + 1, pch = 19, cex = 1.2,
 points(data_dbscan[db6$cluster == 0, ], col = "black", pch = 4, cex = 1.5, lwd = 2)
 
 
+par(mfrow = c(1, 1))
+data.frame(
+  Setting = c("eps=0.3, minPts=5", "eps=0.8, minPts=5", "eps=2.0, minPts=5",
+              "eps=0.8, minPts=3", "eps=0.8, minPts=5", "eps=0.8, minPts=10"),
+  So_cum = c(max(db1$cluster), max(db2$cluster), max(db3$cluster),
+             max(db4$cluster), max(db5$cluster), max(db6$cluster)),
+  So_noise = c(sum(db1$cluster == 0), sum(db2$cluster == 0), sum(db3$cluster == 0),
+               sum(db4$cluster == 0), sum(db5$cluster == 0), sum(db6$cluster == 0))
+)
 
 
 
+set.seed(42)
+
+# Dữ liệu nhỏ
+small_db <- data.frame(
+  x = c(1, 1.5, 1.2, 2, 2.3,  8, 8.5, 8.2, 9,  5),
+  y = c(1, 1.3, 0.8, 1.5, 1.8,  8, 8.3, 7.8, 8.5,  5)
+)
+
+eps_val <- 1
+minPts_val <- 3
+
+par(mfrow = c(3, 2))
+
+# Bước 1: Tất cả điểm chưa gán
+plot(small_db$x, small_db$y, pch = 19, cex = 2, col = "gray",
+     xlim = c(0, 10), ylim = c(0, 10),
+     main = "Bước 1: Chưa gán nhãn",
+     xlab = "X", ylab = "Y")
+text(small_db$x, small_db$y + 0.4, 1:10, font = 2)
+
+# Bước 2: Chọn điểm 1, tìm láng giềng
+plot(small_db$x, small_db$y, pch = 19, cex = 2, col = "gray",
+     xlim = c(0, 10), ylim = c(0, 10),
+     main = paste("Bước 2: Điểm 1 có", sum(dist(rbind(small_db[1,], small_db))[-1] < eps_val), "láng giềng"),
+     xlab = "X", ylab = "Y")
+theta <- seq(0, 2*pi, length.out = 100)
+lines(small_db$x[1] + eps_val*cos(theta), 
+      small_db$y[1] + eps_val*sin(theta), col = "red", lwd = 2)
+points(small_db$x[1], small_db$y[1], pch = 19, cex = 2, col = "red")
+
+# Bước 3: Tạo Cụm 1
+cluster_labels <- rep(0, 10)
+cluster_labels[c(1,2,3,4,5)] <- 1
+plot(small_db$x, small_db$y, pch = 19, cex = 2, 
+     col = ifelse(cluster_labels == 1, "red", "gray"),
+     xlim = c(0, 10), ylim = c(0, 10),
+     main = "Bước 3: Cụm 1 (điểm 1-5)",
+     xlab = "X", ylab = "Y")
+
+# Bước 4: Chọn điểm 6
+plot(small_db$x, small_db$y, pch = 19, cex = 2, 
+     col = ifelse(cluster_labels == 1, "red", "gray"),
+     xlim = c(0, 10), ylim = c(0, 10),
+     main = "Bước 4: Điểm 6 có láng giềng",
+     xlab = "X", ylab = "Y")
+lines(small_db$x[6] + eps_val*cos(theta), 
+      small_db$y[6] + eps_val*sin(theta), col = "blue", lwd = 2)
+points(small_db$x[6], small_db$y[6], pch = 19, cex = 2, col = "blue")
+
+# Bước 5: Tạo Cụm 2
+cluster_labels[c(6,7,8,9)] <- 2
+plot(small_db$x, small_db$y, pch = 19, cex = 2, 
+     col = c("gray", "red", "blue")[cluster_labels + 1],
+     xlim = c(0, 10), ylim = c(0, 10),
+     main = "Bước 5: Cụm 2 (điểm 6-9)",
+     xlab = "X", ylab = "Y")
+
+# Bước 6: Điểm 10 là Noise
+plot(small_db$x, small_db$y, pch = ifelse(cluster_labels == 0, 4, 19), 
+     cex = 2, lwd = 2,
+     col = c("black", "red", "blue")[cluster_labels + 1],
+     xlim = c(0, 10), ylim = c(0, 10),
+     main = "Bước 6: Điểm 10 = NOISE",
+     xlab = "X", ylab = "Y")
+text(small_db$x[10], small_db$y[10] + 0.5, "NOISE", col = "black", font = 2)
+
+par(mfrow = c(1, 1))
 
 
+# Tính k-NN distance
+k <- 5  # minPts
+knn_dist <- kNNdist(data_dbscan, k = k)
+knn_sorted <- sort(knn_dist)
+
+plot(knn_sorted, type = "l", lwd = 2, col = "blue",
+     xlab = "Điểm (sắp xếp)", 
+     ylab = paste(k, "-NN Distance"),
+     main = "k-NN Distance Graph\nTìm eps tối ưu")
+grid()
+
+# Đánh dấu elbow
+abline(h = 0.8, col = "red", lty = 2, lwd = 2)
+text(100, 0.9, "eps ≈ 0.8", col = "red", font = 2)
+
+# Vùng tăng đột ngột
+points(130, knn_sorted[130], col = "red", pch = 19, cex = 2)
 
 
+# Tính k-NN distance
+k <- 5  # minPts
+knn_dist <- kNNdist(data_dbscan, k = k)
+knn_sorted <- sort(knn_dist)
 
+plot(knn_sorted, type = "l", lwd = 2, col = "blue",
+     xlab = "Điểm (sắp xếp)", 
+     ylab = paste(k, "-NN Distance"),
+     main = "k-NN Distance Graph\nTìm eps tối ưu")
+grid()
 
+# Đánh dấu elbow
+abline(h = 0.8, col = "red", lty = 2, lwd = 2)
+text(100, 0.9, "eps ≈ 0.8", col = "red", font = 2)
 
-
+# Vùng tăng đột ngột
+points(130, knn_sorted[130], col = "red", pch = 19, cex = 2)
 
 
 

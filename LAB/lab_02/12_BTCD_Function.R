@@ -930,22 +930,88 @@ classify_student <- function(score) {
 classify_student(8.7)
 
 # ------------------------------------------------------------------------------
-# Bài tập 5: Ứng dụng thực tế
+# Bài tập 5: Ứng dụng thực tế (/ chia bình thường, %% chia lấy dư, %/% chia lấy nguyên)
 # ------------------------------------------------------------------------------
 
 # 1. Viết function tính lương ròng
 # Input: lương cơ bản, phụ cấp, số ngày làm việc, số giờ tăng ca
 # Output: lương ròng sau thuế
 
+ <- function(luong_cb, phu_cap, ngay_lam, gio_ot) {
+  # 1. Tính lương theo ngày (giả định tháng có 26 ngày công)
+  luong_ngay <- (luong_cb / 26) * ngay_lam
+  
+  # 2. Tính lương tăng ca (giả định 150k mỗi giờ)
+  tien_ot <- gio_ot * 150000
+  
+  # 3. Tổng thu nhập trước thuế
+  tong_thu_nhap <- luong_ngay + phu_cap + tien_ot
+  
+  # 4. Tính lương ròng sau khi trừ thuế 10%
+  luong_rong <- tong_thu_nhap * 0.9
+  
+  return(luong_rong)
+}
+
+
+
+# Chạy thử: Lương 10tr, phụ cấp 1tr, làm 25 ngày, tăng ca 10 giờ
+Salary(10000000, 1000000, 25, 10)
+
 # 2. Viết function chuẩn hóa điểm thi
 # Input: vector điểm thô
 # Output: vector điểm chuẩn hóa (0-100)
 # Công thức: (điểm - min) / (max - min) * 100
 
+Scaling <- function(vector_diem) {
+  # Tìm điểm thấp nhất và cao nhất
+  diem_min <- min(vector_diem, na.rm = TRUE)
+  diem_max <- max(vector_diem, na.rm = TRUE)
+  
+  # Áp dụng công thức chuẩn hóa
+  # (điểm - min) / (max - min) * 100
+  diem_moi <- (vector_diem - diem_min) / (diem_max - diem_min) * 100
+  
+  return(diem_moi)
+}
+
+# Chạy thử với danh sách điểm
+diem_thi <- c(5, 8, 2, 10, 7)
+Scaling(diem_thi)
+
 # 3. Viết function phân tích dữ liệu sinh viên
 # Input: data frame (tên, tuổi, điểm)
 # Output: thống kê mô tả đầy đủ
 
+my_student <- function(df_sinh_vien) {
+  cat("--- THỐNG KÊ SINH VIÊN ---\n")
+  
+  # 1. Đếm tổng số sinh viên
+  so_sv <- nrow(df_sinh_vien)
+  cat("Tổng số sinh viên:", so_sv, "\n")
+  
+  # 2. Tính tuổi trung bình
+  tuoi_tb <- mean(df_sinh_vien$tuoi, na.rm = TRUE)
+  cat("Tuổi trung bình:", round(tuoi_tb, 1), "\n")
+  
+  # 3. Tìm điểm cao nhất và thấp nhất
+  diem_max <- max(df_sinh_vien$diem, na.rm = TRUE)
+  diem_min <- min(df_sinh_vien$diem, na.rm = TRUE)
+  cat("Khoảng điểm từ", diem_min, "đến", diem_max, "\n")
+  
+  # 4. Tóm tắt nhanh toàn bộ các cột
+  cat("\n--- Chi tiết bảng dữ liệu ---\n")
+  print(summary(df_sinh_vien))
+}
+
+# Tạo thử một data frame để test
+data_lop_hoc <- data.frame(
+  ten = c("An", "Bình", "Chi", "Dũng"),
+  tuoi = c(20, 21, 20, 22),
+  diem = c(8.5, 7.0, 9.5, 6.0)
+)
+
+my_student(data_lop_hoc)
 # ==============================================================================
 # TÀI LIỆU THAM KHẢO
 # ==============================================================================
