@@ -10,6 +10,7 @@
 # Biến mục tiêu: am (0 = hộp số tự động, 1 = hộp số sàn)
 
 
+
 # Bước 1: cài đặt các gối cần thiết
 if(!require(caret)) install.packages("caret")
 if(!require(pROC)) install.packages("pROC")
